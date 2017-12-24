@@ -1,0 +1,145 @@
+---
+layout: post
+title: "集合类中Iterator的实现"
+date: 2015-07-19 08:52:15 +0800
+comments: true
+categories: java
+tags: [java,iterator]
+---
+有空看了一下ArrayList的实现源码，里面对于Iterator的实现采用是内部类。这里先贴一个我自己版本ArrayList中Iterator的实现。完整版本可参考我的github：https://github.com/PassWarer/JdkAPI
+
+```java
+
+	public java.util.Iterator<AnyType> iterator(){
+		return new ArrayListIterator();
+	}
+	
+	private class ArrayListIterator implements java.util.Iterator<AnyType>{
+		private int current = 0;
+		
+		public boolean hasNext(){
+			return current < size();
+		}
+		
+		public AnyType next(){
+			if(!hasNext()){
+				throw new java.util.NoSuchElementException();
+			}
+			return theItems[current++];
+		}
+		
+		public void remove(){
+			MyArrayList.this.remove(--current);
+		}
+	}
+```
+
+这里要讨论的是为什么要用内部类去实现Iterator这个接口？
+<!--more-->
+在上一篇里其实已经简单说过。首先考虑如果直接在内部实现Iterator的各个方法会怎么样，这样你不可避免的要在内部定义一个指明迭代位置的迭代器，然后根据这个迭代器去写相应的next,hasNext。那如果同时有两个方法对这个List进行引用，是不是会出问题？So...
+
+接下来，既然不能在内部直接用那我把这个类写到类的外面不行吗？
+
+先给一个比较粗糙的版本，不能使用，只是用来说明问题。
+
+```java
+
+	public class MyArrayList<AnyType> implements Iterable<AnyType>{
+		private int theSize;
+		private AnyType[] theItems;
+		...
+		public java.util.Iterator<AnyType> iterator(){
+			return new ArrayListIterator();
+		}
+	}
+	
+	class ArrayListIterator implements java.util.Iterator<AnyType>{
+		private int current = 0;
+		
+		public boolean hasNext(){
+			return current < size();
+		}
+		...
+		public AnyType next(){
+			if(!hasNext()){
+				throw new java.util.NoSuchElementException();
+			}
+			return theItems[current++];
+		}
+	}
+```
+
+这个程序很明显就可以看出一个问题，就是你不能直接引用theItems，这是非法的。
+
+没关系，我们修改，你可能会想我把MyArrayList直接传过来。OK，看下面的代码：
+
+```java
+
+	public class MyArrayList<AnyType> implements Iterable<AnyType>{
+		private int theSize;
+		private AnyType[] theItems;
+		...
+		public java.util.Iterator<AnyType> iterator(){
+			return new ArrayListIterator(this);
+		}
+	}
+	
+	class ArrayListIterator implements java.util.Iterator<AnyType>{
+		private int current = 0;
+		
+		private MyArrayList<AnyType> theList;
+		
+		public ArrayListIterator(MyArrayList<AnyType> list){
+			theList = list;
+		}
+		
+		public boolean hasNext(){
+			return current < theList.size();
+		}
+		...
+		public AnyType next(){
+			if(!hasNext()){
+				throw new java.util.NoSuchElementException();
+			}
+			return theList.theItems[current++];
+		}
+	}
+```
+
+可以吗？不可以，因为theItems是私有成员，所以你仍然不能直接去引用。你可能会说，我把theItems改为public不就可以了吗？可以吗？---不可以，你违反了面向对象编程的基本原则。
+
+好吧，那在一个类里使用另一个类里的私有成员的最好方法也就是把这一个类放到另一类里了。那这里还有一个所谓嵌套类与内部类的区别。什么样的写法是嵌套类？把放在内部的这个类用static修饰则为嵌套类，不用static修饰则为内部类（这部分理解不知是否有问题，还请赐教）。那这里我们可以直接用嵌套类？可以，给出代码
+
+```java
+	public class MyArrayList<AnyType> implements Iterable<AnyType>{
+		private int theSize;
+		private AnyType[] theItems;
+		...
+		public java.util.Iterator<AnyType> iterator(){
+			return new ArrayListIterator(this);
+		}
+		
+		private static class ArrayListIterator implements java.util.Iterator<AnyType>{
+			private int current = 0;
+			
+			private MyArrayList<AnyType> theList;
+			
+			public ArrayListIterator(MyArrayList<AnyType> list){
+				theList = list;
+			}
+			
+			public boolean hasNext(){
+				return current < theList.size();
+			}
+			...
+			public AnyType next(){
+				if(!hasNext()){
+					throw new java.util.NoSuchElementException();
+				}
+				return theList.theItems[current++];
+			}
+		}
+	}
+```
+
+不过程序员是懒的，反正我也是不想写多余的代码的。这里的嵌套类里中需要把MyArrayList引用传过来用，现在我是不想做这些工作，想把这些工作交给编译器。这样子，我们就可以选择内部类了，因为当声明一个内部类时，编译器都会添加对外部类对象的一个隐式引用，我们上面代码中的theList就可以省略而直接使用MyArrayList.this，也不再需要把MyArrayList做为参数来进行内部分类的初始化了。代码到此就如最开始贴出的版本了。这里直接使用MyArrayList中的remove做的删除，以防自己写与其相冲突。
