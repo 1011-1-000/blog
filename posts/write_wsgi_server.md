@@ -7,7 +7,7 @@ categories: python
 tags: [server,wsgi]
 ---
 
-在做Web开发时，一个很重要的概念就是服务端和应用程序之间的沟通协议，比如java中的servlet，由于servlet的存在，使得用java开发的web程序既可以跑在tomcat上，也可以是jetty或是jboss。反之亦然。而在python中，对应的协议也就是WSGI协议,本文的目标就是实现一个可以支持python主流框架的web服务器，也帮助自己加强对WSGI协议的理解。
+在做Web开发时，一个很重要的概念就是服务端和应用程序之间的沟通协议，比如java中的servlet，由于servlet的存在，使得用java开发的web程序既可以跑在tomcat上，也可以是jetty。反之亦然。而在python中，对应的协议也就是WSGI协议,本文的目标就是实现一个可以支持python主流框架的web服务器，也帮助自己加强对WSGI协议的理解。
 <!--more-->
 实验环境：
 - python3.5
@@ -183,7 +183,7 @@ def application(environ, start_response):
 if __name__ == '__main__':
     server = WSGIServer('127.0.0.1',8888,weppy_application).make_server()
 ```
-但是这个服务器仍然还有许多需要完善的地方。不过不妨碍其做为WSGI协议的学习的补充。
+但是这个服务器仍然还有许多需要完善的地方。不过不妨碍其做为学习WSGI协议时的补充。
 
 
 
