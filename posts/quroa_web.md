@@ -18,7 +18,8 @@ tags: [web,architeture]
 
 原来的并行架构设计服从主从模式，它的设计和参数是在生产环境中经过一系列基准测试后选定的。该设计中的主结点和从结点在不同的层级里：主结点机器我们称之为 webpara，每个结点上跑有 6 个 Python 主进程；从结点机器我们称之为 webworker，每个结点上有 6 个工作进程和一个用 C++ 语言编写的 fastrouter 进程。主进程和工作进程中的应用逻辑跑在相同的 web 服务器中，fastrouter 进程则是跑在一个用 C++ 定制的多线程队列服务器中，支持任意数据的快速入队和出队。这两层都是使用了AWS的 c1.xlarge EC2 实例，它们有 8 核和 6MB 的共享 CPU 高速缓存。
 
-[!img](uploads/avatar.jpg)
+{% uploads/avatar.jpg This is an example image %}
+
 [!img](/uploads/avatar.jpg)
 
 
