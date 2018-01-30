@@ -9,6 +9,7 @@ tags: [web,architeture]
 
 > 本文由 [伯乐在线 - 10111000](http://www.jobbole.com/members/PassWarer/) 翻译，[艾凌风](http://www.jobbole.com/members/hanxiaomax/) 校稿。未经许可，禁止转载！
 > 英文出处：[engineering.quora](https://engineering.quora.com/Web-Server-Architecture-at-Quora)。欢迎加入[翻译组](http://group.jobbole.com/category/feedback/trans-team/)。
+> 原文链接：[http://blog.jobbole.com/113576/](http://blog.jobbole.com/113576/)
 
 正如我们在[提高网页速度](https://blog.quora.com/Improving-Site-Speed)一文中提到的一样，我们在 2012 年的 8 月份使用了一种新的并行架构去渲染页面。相比以前，它使得我们可以以 3-10 倍的速度来渲染页面。如今，我们又对原来的架构设计做了一些改进，从而进一步提高了速度并节省了成本，这里我将和大家一起分享。
 
