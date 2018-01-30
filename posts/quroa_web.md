@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Qurao 的 Web 服务器架构"
+title: "Quora 的 Web 服务器架构"
 date: 2018-01-30 22:20:15 +0800
 comments: true
 categories: architeture
