@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Java并发"
-date: 2015-07-13 10:04:46 +0800
+date: 2015-07-13 10:20:15 +0800
 comments: true
 categories: java
-tags : [concurrent]
+tags: [java, concurrent]
 ---
 
 #### **并发产生的原因：**
