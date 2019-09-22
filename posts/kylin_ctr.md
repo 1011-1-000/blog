@@ -19,9 +19,9 @@ tags: [kylin,financial]
 
 金融里关于Contribution to return 的计算是一个复杂的过程，但在业务分析端却需要从各个维度有针对性的对投资者所持有的资产组合做一个全面的剖析，包括从行业，区域，时间等。其计算公式如下：
 
-$$
+$
 CTR_i = \frac{\sum_{t=t_s}^{t_e}{\frac{v_{i,t}}{V_t}\ln{R_t}}}{\frac{\sum_{t}\ln{R_t}}{\prod_{t}{(1 + R_t)} - 1}}
-$$
+$
 
 - $t_s$, $t_e$ 为选中的时间区间
 - $v_{i,t}$ 为某支股票在某个时间点的Value add
