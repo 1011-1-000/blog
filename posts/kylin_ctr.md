@@ -3,6 +3,7 @@ layout: post
 title: "Kylin在CTR计算中的实践"
 date: 2019-09-21 22:20:15 +0800
 comments: true
+mathjax: true
 categories: architecture
 tags: [kylin,financial]
 
