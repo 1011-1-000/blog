@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Kylin在CTR计算中的实践"
-date: 2019-09-15 22:20:15 +0800
+date: 2019-09-21 22:20:15 +0800
 comments: true
-categories: big data
+categories: architecture
 tags: [kylin,financial]
 
 ---

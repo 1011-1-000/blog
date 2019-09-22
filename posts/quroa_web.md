@@ -3,8 +3,8 @@ layout: post
 title: "Quora 的 Web 服务器架构"
 date: 2018-01-30 22:20:15 +0800
 comments: true
-categories: architeture
-tags: [web,architeture]
+categories: architecture
+tags: [web,architecture]
 ---
 
 > 本文由 [伯乐在线 - 10111000](http://www.jobbole.com/members/PassWarer/) 翻译，[艾凌风](http://www.jobbole.com/members/hanxiaomax/) 校稿。未经许可，禁止转载！
